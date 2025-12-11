@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Jonathan Lee | Project & Data Systems Leader</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #05060a;
+      --bg-alt: #0d1018;
+      --card: #121623;
+      --accent: #4fd1c5;
+      --accent-soft: rgba(79, 209, 197, 0.12);
+      --text-main: #f7fafc;
+      --text-muted: #a0aec0;
+      --border-subtle: #2d3748;
+      --danger: #f56565;
+      --shadow-soft: 0 18px 40px rgba(0,0,0,0.45);
+      --radius-lg: 18px;
+      --radius-xl: 26px;
+      --transition-fast: 0.2s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #05060a 50%, #020308 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 32px 18px 80px;
+    }
+
+    header.hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.3fr);
+      gap: 32px;
+      margin-bottom: 40px;
+      align-items: center;
+    }
+
+    @media (max-width: 880px) {
+      header.hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-main {
+      padding: 24px 26px;
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at top left, rgba(79,209,197,0.18), transparent 60%),
+                  linear-gradient(145deg, rgba(15,23,42,0.98), rgba(5,6,10,0.98));
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148,163,184,0.35);
+    }
+
+    .hero-name {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      margin-bottom: 4px;
+    }
+
+    .hero-title {
+      font-size: 16px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .hero-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin-bottom: 18px;
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-meta span::before {
+      content: "•";
+      color: #4a5568;
+      font-size: 16px;
+    }
+
+    .hero-summary {
+      margin-top: 8px;
+      color: #e2e8f0;
+      font-size: 14px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 13px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-main);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0fb9b1, #4fd1c5);
+      color: #02151a;
+      box-shadow: 0 12px 30px rgba(79,209,197,0.45);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 36px rgba(79,209,197,0.55);
+    }
+
+    .btn-ghost {
+      border-color: var(--border-subtle);
+      background: rgba(15,23,42,0.8);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(17,24,39,0.98);
+      border-color: #4b5563;
+    }
+
+    .hero-aside {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .card {
+      border-radius: var(--radius-lg);
+      background: linear-gradient(145deg, #05060a, #0b0f1a);
+      border: 1px solid rgba(75,85,99,0.7);
+      padding: 16px 18px 18px;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.65);
+    }
+
+    .card-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric-card {
+      position: relative;
+      border-radius: 14px;
+      padding: 10px 10px 12px;
+      background: radial-gradient(circle at top, rgba(79,209,197,0.16), transparent 65%);
+      border: 1px solid rgba(148,163,184,0.5);
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+    }
+
+    .metric-card::after {
+      content: "Tap";
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      font-size: 10px;
+      color: rgba(148,163,184,0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: 0 14px 28px rgba(15,23,42,0.9);
+      background: radial-gradient(circle at top, rgba(79,209,197,0.26), transparent 75%);
+    }
+
+    .metric-value {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #a0aec0;
+    }
+
+    .metric-sub {
+      font-size: 10px;
+      color: #718096;
+      margin-top: 2px;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(to right, rgba(5,6,10,0.96), rgba(5,6,10,0.96));
+      border-bottom: 1px solid rgba(55,65,81,0.7);
+      z-index: 10;
+      margin: 0 -18px 24px;
+      padding: 8px 18px;
+    }
+
+    nav .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    nav .nav-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #9ca3af;
+      white-space: nowrap;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    nav a {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: #e5e7eb;
+      text-decoration: none;
+      transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    nav a:hover {
+      background: rgba(31,41,55,0.9);
+      border-color: #4b5563;
+      transform: translateY(-1px);
+    }
+
+    nav a.nav-pill-primary {
+      border-color: rgba(79,209,197,0.8);
+      background: rgba(15,23,42,0.96);
+      color: var(--accent);
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
+
+    section {
+      padding: 18px 20px 20px;
+      border-radius: var(--radius-xl);
+      background: rgba(9,10,18,0.96);
+      border: 1px solid rgba(55,65,81,0.9);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.8);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: #cbd5f5;
+    }
+
+    .section-subtitle {
+      font-size: 11px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .section-body {
+      font-size: 13px;
+      color: #e5e7eb;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .pill {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      color: #cbd5f5;
+      background: rgba(15,23,42,0.92);
+    }
+
+    .pill-accent {
+      border-color: rgba(79,209,197,0.9);
+      background: var(--accent-soft);
+      color: #e6fffa;
+    }
+
+    .experience-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.3fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 880px) {
+      .experience-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .exp-card {
+      border-radius: 16px;
+      border: 1px solid rgba(75,85,99,0.9);
+      background: radial-gradient(circle at top left, rgba(79,209,197,0.08), transparent 70%);
+      padding: 12px 12px 12px;
+    }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .exp-role {
+      font-size: 14px;
+      font-weight: 600;
+      color: #f9fafb;
+    }
+
+    .exp-company {
+      font-size: 12px;
+      color: #a0aec0;
+    }
+
+    .exp-meta {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .exp-list {
+      margin-top: 8px;
+      padding-left: 16px;
+      font-size: 12px;
+      color: #e5e7eb;
+    }
+
+    .exp-list li {
+      margin-bottom: 4px;
+    }
+
+    .exp-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .exp-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      color: #9ca3af;
+    }
+
+    .exp-tag-strong {
+      border-color: rgba(79,209,197,0.9);
+      color: #a7f3d0;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 880px) {
+      .grid-two {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .placeholder-box {
+      border-radius: 14px;
+      border: 1px dashed rgba(75,85,99,0.9);
+      padding: 10px 11px 11px;
+      background: rgba(15,23,42,0.65);
+      font-size: 12px;
+      color: #e5e7eb;
+    }
+
+    .placeholder-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+
+    .placeholder-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .placeholder-hint {
+      font-size: 11px;
+      color: #a0aec0;
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 18px;
+      margin-top: 4px;
+      font-size: 12px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 3px;
+      bottom: 3px;
+      width: 1px;
+      background: linear-gradient(to bottom, rgba(75,85,99,0.9), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .timeline-bullet {
+      position: absolute;
+      left: -1px;
+      top: 4px;
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.8);
+      background: #0b1120;
+    }
+
+    .timeline-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: #9ca3af;
+      margin-bottom: 2px;
+      margin-left: 10px;
+    }
+
+    .timeline-text {
+      margin-left: 10px;
+      color: #e5e7eb;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      font-size: 13px;
+      color: #e2e8f0;
+    }
+
+    .contact-row span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .contact-row span::before {
+      content: "➤";
+      font-size: 11px;
+      color: #4b5563;
+    }
+
+    footer {
+      margin-top: 26px;
+      font-size: 11px;
+      color: #6b7280;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="hero-main">
+        <div class="hero-name">Jonathan Lee</div>
+        <div class="hero-title">Technical Project Manager & AI-Driven Reporting Lead</div>
+        <div class="hero-meta">
+          <span>Los Angeles, CA</span>
+          <span><a href="mailto:Thunder5az@hotmail.com">Thunder5az@hotmail.com</a></span>
+          <span><a href="tel:+18189199634">(+1) 818-919-9634</a></span>
+        </div>
+        <p class="hero-summary">
+          Project manager and certified Scrum Master with 16+ years across media, entertainment, and finance.
+          I build data ecosystems, automate financial workflows, and ship AI-powered reporting tools that reduce cycle times,
+          cut manual work, and give executives clean visibility into what matters.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="document.getElementById('experience').scrollIntoView({behavior:'smooth'})">
+            View Experience
+          </button>
+          <button class="btn btn-ghost" onclick="document.getElementById('ai-projects').scrollIntoView({behavior:'smooth'})">
+            AI & Automation Work
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-aside">
+        <div class="card">
+          <div class="card-title">Snapshot Metrics</div>
+          <div class="metrics-grid">
+            <div class="metric-card" data-base="16" data-extra="+ years" data-target="16">
+              <div class="metric-value">0</div>
+              <div class="metric-label">Experience</div>
+              <div class="metric-sub">Media, entertainment, finance</div>
+            </div>
+            <div class="metric-card" data-base="50" data-extra="+ apps" data-target="50">
+              <div class="metric-value">0</div>
+              <div class="metric-label">Apps Delivered</div>
+              <div class="metric-sub">Reporting, finance, operations</div>
+            </div>
+            <div class="metric-card" data-base="90" data-extra="%+" data-target="90">
+              <div class="metric-value">0</div>
+              <div class="metric-label">Reporting Automation</div>
+              <div class="metric-sub">Recurring workloads automated</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Focus Areas</div>
+          <div class="pill-row">
+            <div class="pill pill-accent">Enterprise Data Ecosystems</div>
+            <div class="pill">Financial Automation</div>
+            <div class="pill">AI Reporting & Forecasting</div>
+            <div class="pill">ERP Migrations</div>
+            <div class="pill">Agile Delivery</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <nav>
+      <div class="nav-inner">
+        <div class="nav-title">Portfolio</div>
+        <ul>
+          <li><a href="#about" class="nav-pill-primary">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#ai-projects">AI & Automation</a></li>
+          <li><a href="#case-studies">Case Studies</a></li>
+          <li><a href="#speaking">Playbooks & Templates</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main>
+      <section id="about">
+        <div class="section-header">
+          <div class="section-title">About</div>
+          <div class="section-subtitle">How I Work</div>
+        </div>
+        <div class="section-body">
+          <p>
+            I specialize in taking messy, high-stakes financial and operational processes and rebuilding them into
+            clean, automated ecosystems. At Apple, Warner Bros., CBRE, and other media and tech companies, I have led
+            ERP upgrades, data platform builds, and reporting transformations that cut cycle times, improve accuracy,
+            and make it easier for teams to trust their numbers.
+          </p>
+          <br />
+          <p>
+            I sit at the intersection of product, finance, and engineering: translating business constraints into
+            technical requirements, driving delivery through Agile practices, and validating that what ships actually
+            solves the problem it was supposed to.
+          </p>
+        </div>
+      </section>
+
+      <section id="experience">
+        <div class="section-header">
+          <div class="section-title">Experience</div>
+          <div class="section-subtitle">Recent Roles</div>
+        </div>
+        <div class="section-body">
+          <div class="experience-grid">
+            <div class="exp-card">
+              <div class="exp-header">
+                <div>
+                  <div class="exp-role">Technical Project Manager</div>
+                  <div class="exp-company">Apple – Information Systems &amp; Technology · Culver City, CA</div>
+                </div>
+                <div class="exp-meta">Apr 2019 – Present</div>
+              </div>
+              <ul class="exp-list">
+                <li>Led the Apple TV+ enterprise data ecosystem, integrating services and a cloud data warehouse for 500+ users with 100% on-time delivery.</li>
+                <li>Spearheaded AI integration into planning and reporting tools, cutting planning cycles by 20% and improving forecast accuracy by 15%.</li>
+                <li>Directed ERP upgrades (SAP HANA S/4, Hyperion, Teradata) and reduced financial close by 15%, improving reporting accuracy by 10%.</li>
+                <li>Automated 90% of recurring reporting via advanced Excel/VBA, saving 25+ hours per month and materially reducing error rates.</li>
+                <li>Delivered 50+ custom applications across Finance, Marketing, and Production, shortening reporting turnaround by 40%.</li>
+              </ul>
+              <div class="exp-tag-row">
+                <div class="exp-tag exp-tag-strong">Data Ecosystem</div>
+                <div class="exp-tag exp-tag-strong">AI Reporting</div>
+                <div class="exp-tag">ERP Upgrades</div>
+                <div class="exp-tag">Apple TV+</div>
+              </div>
+            </div>
+
+            <div class="exp-card">
+              <div class="exp-header">
+                <div>
+                  <div class="exp-role">Sr. Financial Analyst – Financial Reporting</div>
+                  <div class="exp-company">Warner Bros. Entertainment · Burbank, CA</div>
+                </div>
+                <div class="exp-meta">Jan 2018 – Apr 2019</div>
+              </div>
+              <ul class="exp-list">
+                <li>Led SAP HANA migration across multiple departments, coordinating requirements, testing, and rollout for 100% on-schedule adoption.</li>
+                <li>Automated 90% of reporting workloads, accelerating monthly close by 3 days and improving accuracy by 20%.</li>
+                <li>Built automation for journal entries and reconciliations, freeing 15+ hours weekly and cutting quarterly reconciliation time by 25%.</li>
+                <li>Prepared consolidated FP&amp;A and management reporting for quarterly and annual cycles with 100% deadline compliance.</li>
+              </ul>
+              <div class="exp-tag-row">
+                <div class="exp-tag exp-tag-strong">Financial Automation</div>
+                <div class="exp-tag">SAP HANA</div>
+                <div class="exp-tag">FP&amp;A</div>
+              </div>
+            </div>
+
+            <div class="exp-card">
+              <div class="exp-header">
+                <div>
+                  <div class="exp-role">Sr. Reporting &amp; Data Analyst – Global Investments</div>
+                  <div class="exp-company">CBRE Global Investment Administration · Los Angeles, CA</div>
+                </div>
+                <div class="exp-meta">Jun 2017 – Dec 2017</div>
+              </div>
+              <ul class="exp-list">
+                <li>Automated financial data analysis for $500M+ in assets, cutting forecasting cycles by 25% and improving AUM trend accuracy by 15%.</li>
+                <li>Served as Scrum Master/Product Owner for cross-platform financial systems integration, delivering 100% on-time and in-scope.</li>
+                <li>Partnered with Marketing and IT to automate workflows, reducing reporting turnaround by 35%.</li>
+              </ul>
+              <div class="exp-tag-row">
+                <div class="exp-tag">Global Investments</div>
+                <div class="exp-tag">Scrum Master</div>
+                <div class="exp-tag">Automation</div>
+              </div>
+            </div>
+
+            <div class="exp-card">
+              <div class="exp-header">
+                <div>
+                  <div class="exp-role">Business Analyst &amp; Business Systems Analyst</div>
+                  <div class="exp-company">Age of Learning · DTS Inc. · Various</div>
+                </div>
+                <div class="exp-meta">2013 – 2016</div>
+              </div>
+              <ul class="exp-list">
+                <li>Owned PRDs/FDDs, personas, and user stories for ed-tech products, achieving 100% stakeholder approval at Age of Learning.</li>
+                <li>Optimized Salesforce and reporting at DTS, delivering 25+ dashboards, improving data accuracy 20% and decision efficiency 25%.</li>
+                <li>Migrated LMS to a cloud platform and built VBA tools to standardize royalty reporting, cutting manual workload by 40%.</li>
+              </ul>
+              <div class="exp-tag-row">
+                <div class="exp-tag">Salesforce</div>
+                <div class="exp-tag">LMS Migration</div>
+                <div class="exp-tag">VBA Automation</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills">
+        <div class="section-header">
+          <div class="section-title">Skills</div>
+          <div class="section-subtitle">Tooling & Methods</div>
+        </div>
+        <div class="section-body">
+          <div class="grid-two">
+            <div>
+              <div class="placeholder-label">Core Capabilities</div>
+              <div class="pill-row">
+                <div class="pill pill-accent">Agile &amp; Scrum (CSM)</div>
+                <div class="pill">Enterprise Data Warehousing</div>
+                <div class="pill">Financial Systems Automation</div>
+                <div class="pill">AI Integration &amp; Reporting</div>
+                <div class="pill">Cross-Functional Delivery</div>
+                <div class="pill">Stakeholder Management</div>
+              </div>
+              <div class="placeholder-label" style="margin-top: 14px;">Technical Stack</div>
+              <div class="pill-row">
+                <div class="pill">Excel &amp; Access (Advanced)</div>
+                <div class="pill">VBA Automation</div>
+                <div class="pill">SQL &amp; Data Modeling</div>
+                <div class="pill">SAP (HANA / Business One / BW)</div>
+                <div class="pill">Oracle Financials &amp; A/R</div>
+                <div class="pill">Salesforce</div>
+                <div class="pill">Tableau &amp; Power BI</div>
+                <div class="pill">Jira &amp; Confluence</div>
+              </div>
+            </div>
+            <div>
+              <div class="placeholder-box">
+                <div class="placeholder-label">Placeholder – Add Your Detail</div>
+                <div class="placeholder-title">Tooling Deep Dive: Financial Automation Stack</div>
+                <div class="placeholder-hint">
+                  Use this panel to highlight your go-to tools for building reporting ecosystems (e.g., how you combine
+                  Excel/VBA, SQL, and BI tools to ship production-ready solutions). Add specific examples and screenshots later.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="ai-projects">
+        <div class="section-header">
+          <div class="section-title">AI &amp; Automation</div>
+          <div class="section-subtitle">Selected Work</div>
+        </div>
+        <div class="section-body">
+          <div class="grid-two">
+            <div>
+              <div class="placeholder-box">
+                <div class="placeholder-label">Case Study Placeholder</div>
+                <div class="placeholder-title">AI-Enabled Forecasting for Apple TV+ Slate Planning</div>
+                <div class="placeholder-hint">
+                  Describe how you integrated AI into existing planning workflows: what the baseline looked like, how
+                  you redesigned the process, what data sources were involved, and the concrete impact (cycle time, accuracy).
+                  This is a good place for before/after screenshots and a short narrative.
+                </div>
+              </div>
+
+              <div style="margin-top: 12px;" class="placeholder-box">
+                <div class="placeholder-label">Automation Story</div>
+                <div class="placeholder-title">Excel/VBA Engine for Multi-Union Labor Modeling</div>
+                <div class="placeholder-hint">
+                  Summarize your VBA-based financial models (e.g., union rate cards, fringes, scale vs. actuals).
+                  Focus on volume, complexity, and how the automation changed the way stakeholders work.
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="timeline">
+                <div class="timeline-item">
+                  <div class="timeline-bullet"></div>
+                  <div class="timeline-label">AI Integration Highlights</div>
+                  <div class="timeline-text">
+                    <strong>20% reduction</strong> in planning cycles and <strong>15% uplift</strong> in forecasting accuracy through AI-enabled reporting at Apple.
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-bullet"></div>
+                  <div class="timeline-label">Reporting Automation</div>
+                  <div class="timeline-text">
+                    <strong>90% of recurring reporting</strong> automated across different roles using Excel/VBA and data pipelines.
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-bullet"></div>
+                  <div class="timeline-label">ERP &amp; Data Platforms</div>
+                  <div class="timeline-text">
+                    Multiple ERP and data platform upgrades (SAP HANA S/4, Hyperion, Teradata) delivered on time with measurable improvements in close processes and data quality.
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top: 14px;" class="placeholder-box">
+                <div class="placeholder-label">Future Section</div>
+                <div class="placeholder-title">AI Report Builder &amp; Agent Workflows</div>
+                <div class="placeholder-hint">
+                  Reserve this space to document your work with AI-powered report builders and agent-style workflows
+                  that generate, summarize, or reconcile financial data in real time.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="case-studies">
+        <div class="section-header">
+          <div class="section-title">Case Studies</div>
+          <div class="section-subtitle">Deep Dives</div>
+        </div>
+        <div class="section-body">
+          <div class="grid-two">
+            <div class="placeholder-box">
+              <div class="placeholder-label">Placeholder – Apple TV+ Data Ecosystem</div>
+              <div class="placeholder-title">Building an Enterprise Data Hub for Streaming Finance</div>
+              <div class="placeholder-hint">
+                Use this section for a full narrative: stakeholders, systems, data flows, governance, and the end-state
+                analytics experience for Apple TV+. Add architecture diagrams, dashboards, and key decisions you drove.
+              </div>
+            </div>
+            <div class="placeholder-box">
+              <div class="placeholder-label">Placeholder – Warner Bros / CBRE</div>
+              <div class="placeholder-title">Standardizing Close Processes Across Multiple Entities</div>
+              <div class="placeholder-hint">
+                Walk through how you standardized and automated close and reporting processes across business units,
+                including how you aligned requirements, validation rules, and control points.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="speaking">
+        <div class="section-header">
+          <div class="section-title">Playbooks &amp; Templates</div>
+          <div class="section-subtitle">How Others Can Use Your Work</div>
+        </div>
+        <div class="section-body">
+          <div class="grid-two">
+            <div class="placeholder-box">
+              <div class="placeholder-label">Placeholder – Playbook</div>
+              <div class="placeholder-title">Enterprise Reporting Ecosystem Playbook</div>
+              <div class="placeholder-hint">
+                Add a downloadable or visual playbook that summarizes how you think about reporting ecosystems:
+                source systems, integration, data models, front-end tools, and support processes.
+              </div>
+            </div>
+            <div class="placeholder-box">
+              <div class="placeholder-label">Placeholder – Templates</div>
+              <div class="placeholder-title">Jira Boards, Roadmaps &amp; Meeting Templates</div>
+              <div class="placeholder-hint">
+                Use this area to link or describe templates you rely on for sprint boards, multi-year roadmaps,
+                steering decks, and decision logs. This is useful context for hiring managers who care about execution discipline.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="section-header">
+          <div class="section-title">Contact</div>
+          <div class="section-subtitle">Get In Touch</div>
+        </div>
+        <div class="section-body">
+          <p>
+            I am open to roles focused on enterprise data, financial systems, AI-enabled reporting, and complex
+            multi-year programs in media, tech, and adjacent industries.
+          </p>
+          <div class="contact-row">
+            <span>Email: <a href="mailto:Thunder5az@hotmail.com">Thunder5az@hotmail.com</a></span>
+            <span>Phone: <a href="tel:+18189199634">(+1) 818-919-9634</a></span>
+            <span>Location: Los Angeles, CA</span>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        Built as a single-page portfolio from Jonathan’s resume. All metrics and timelines are editable directly in this file.
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Simple metric animation on load + tap to re-animate
+    function animateMetric(el) {
+      const target = parseInt(el.dataset.target, 10) || 0;
+      const base = parseInt(el.dataset.base, 10) || target;
+      const extra = el.dataset.extra || "";
+      const valueEl = el.querySelector(".metric-value");
+      let start = 0;
+      const duration = 900;
+      const startTime = performance.now();
+
+      function frame(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const current = Math.round(progress * base);
+        valueEl.textContent = current + extra;
+        if (progress < 1) {
+          requestAnimationFrame(frame);
+        }
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const metricCards = document.querySelectorAll(".metric-card");
+      metricCards.forEach(function (card, index) {
+        // staggered initial animation
+        setTimeout(function () {
+          animateMetric(card);
+        }, index * 150);
+
+        card.addEventListener("click", function () {
+          animateMetric(card);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
